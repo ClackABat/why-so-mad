@@ -10,3 +10,8 @@ export const inTheNewsState = atom<string>({
     key: "inTheNewsState",
     default: "",
 });
+
+export const onThisDayState = atom<string>({
+    key: "onThisDayState",
+    default: "",
+});

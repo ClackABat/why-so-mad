@@ -3,8 +3,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Container, IconButton, Typography } from "@mui/material";
 import Results from "./Results";
 import { useRecoilState } from "recoil";
-import { getInTheNews, getRandomResult } from "./Services";
-import { inTheNewsState, resultsState } from "./State";
+import { getInTheNews, getOnThisDay, getRandomPageFromCategory, getRandomResult } from "./Services";
+import { inTheNewsState, onThisDayState, resultsState } from "./State";
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { Box } from "@mui/system";
 import "./App.css";
@@ -34,6 +34,7 @@ const theme = createTheme({
 function App() {
   const [results, setResults] = useRecoilState(resultsState);
   const [inTheNews, setInTheNews] = useRecoilState(inTheNewsState);
+  const [onThisDay, setOnThisDay] = useRecoilState(onThisDayState);
 
   React.useEffect(() => {
     getResults();
@@ -45,9 +46,10 @@ function App() {
   };
 
   const getResults = () => {
-    Promise.all([getRandomResult(), getInTheNews()]).then(([result, inTheNews]) => {
+    Promise.all([getRandomResult(), getInTheNews(), getOnThisDay()]).then(([result, inTheNews, onThisDay]) => {
       setResults(result);
       setInTheNews(inTheNews);
+      setOnThisDay(onThisDay);
     });
   };
 
