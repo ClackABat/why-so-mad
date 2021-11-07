@@ -3,18 +3,20 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Container, IconButton, Typography } from "@mui/material";
 import Results from "./Results";
 import { useRecoilState } from "recoil";
-import { getRandomResult } from "./Services";
-import { resultsState } from "./State";
+import { getInTheNews, getRandomResult } from "./Services";
+import { inTheNewsState, resultsState } from "./State";
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { Box } from "@mui/system";
+import "./App.css";
+import { ContactMailSharp } from "@mui/icons-material";
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#444",
+      main: "#040926",
     },
     secondary: {
-      main: "#ED1C24",
+      main: "#645244",
     },
   },
   typography: {
@@ -31,9 +33,11 @@ const theme = createTheme({
 
 function App() {
   const [results, setResults] = useRecoilState(resultsState);
+  const [inTheNews, setInTheNews] = useRecoilState(inTheNewsState);
 
   React.useEffect(() => {
     getResults();
+    // getInTheNews().then((results) => console.log(results));
   }, []);
 
   const refreshHandler = () => {
@@ -41,15 +45,16 @@ function App() {
   };
 
   const getResults = () => {
-    Promise.all([getRandomResult()]).then(([result]) => {
+    Promise.all([getRandomResult(), getInTheNews()]).then(([result, inTheNews]) => {
       setResults(result);
+      setInTheNews(inTheNews);
     });
   };
 
   return (
     
       <ThemeProvider theme={theme}>
-        <Container sx={{textAlign: "center"}}>
+        <Container sx={{textAlign: "center", position: 'fixed', left: '50%', top: '50%', transform: 'translate(-50%, -50%)'}}>
           <Box sx={{ position: "absolute", top: 0, right: 0}}>
             <IconButton size="large" onClick={refreshHandler}><RefreshIcon/></IconButton>
           </Box>
