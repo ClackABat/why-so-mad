@@ -3,9 +3,14 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Container, IconButton, Typography } from "@mui/material";
 import Results from "./Results";
 import { useRecoilState } from "recoil";
-import { getInTheNews, getOnThisDay, getRandomPageFromCategory, getRandomResult } from "./Services";
+import {
+  getInTheNews,
+  getOnThisDay,
+  getRandomPageFromCategory,
+  getRandomResult,
+} from "./Services";
 import { inTheNewsState, onThisDayState, resultsState } from "./State";
-import RefreshIcon from '@mui/icons-material/Refresh';
+import RefreshIcon from "@mui/icons-material/Refresh";
 import { Box } from "@mui/system";
 import "./App.css";
 import { ContactMailSharp } from "@mui/icons-material";
@@ -28,8 +33,22 @@ const theme = createTheme({
     h2: {
       fontFamily: ["Cardo", "sans-serif"].join(","),
     },
+    h3: {
+      fontFamily: ["Cardo", "sans-serif"].join(","),
+    },
   },
 });
+
+const styles = {
+  container: {
+    textAlign: "center",
+    position: {sm: "relative", lg: "fixed"},
+    left: {sm: "0", lg: "50%"},
+    top: {sm: "0", lg: "30%"},
+    transform: {sm: 'none', lg: "translate(-50%, -50%)"},
+  },
+} as const;
+
 
 function App() {
   const [results, setResults] = useRecoilState(resultsState);
@@ -46,24 +65,27 @@ function App() {
   };
 
   const getResults = () => {
-    Promise.all([getRandomResult(), getInTheNews(), getOnThisDay()]).then(([result, inTheNews, onThisDay]) => {
-      setResults(result);
-      setInTheNews(inTheNews);
-      setOnThisDay(onThisDay);
-    });
+    Promise.all([getRandomResult(), getInTheNews(), getOnThisDay()]).then(
+      ([result, inTheNews, onThisDay]) => {
+        setResults(result);
+        setInTheNews(inTheNews);
+        setOnThisDay(onThisDay);
+      }
+    );
   };
 
   return (
-    
-      <ThemeProvider theme={theme}>
-        <Container sx={{textAlign: "center", position: 'fixed', left: '50%', top: '50%', transform: 'translate(-50%, -50%)'}}>
-          <Box sx={{ position: "absolute", top: 0, right: 0}}>
-            <IconButton size="large" onClick={refreshHandler}><RefreshIcon/></IconButton>
-          </Box>
-          <Typography variant="h1">Why is my girlfriend mad at me?</Typography>
-          <Results />
-        </Container>
-      </ThemeProvider>
+    <ThemeProvider theme={theme}>
+      <Container sx={styles.container}>
+        <Box sx={{ position: "absolute", top: 0, right: 0 }}>
+          <IconButton size="large" onClick={refreshHandler}>
+            <RefreshIcon />
+          </IconButton>
+        </Box>
+        <Typography variant="h3">Why is my girlfriend mad at me?</Typography>
+        <Results />
+      </Container>
+    </ThemeProvider>
   );
 }
 
