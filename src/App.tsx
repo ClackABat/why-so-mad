@@ -14,6 +14,7 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import { Box } from "@mui/system";
 import "./App.css";
 import { ContactMailSharp } from "@mui/icons-material";
+import { titles } from "./Titles";
 
 const theme = createTheme({
   palette: {
@@ -42,13 +43,12 @@ const theme = createTheme({
 const styles = {
   container: {
     textAlign: "center",
-    position: {sm: "relative", lg: "fixed"},
-    left: {sm: "0", lg: "50%"},
-    top: {sm: "0", lg: "30%"},
-    transform: {sm: 'none', lg: "translate(-50%, -50%)"},
+    position: { sm: "relative", lg: "fixed" },
+    left: { sm: "0", lg: "50%" },
+    top: { sm: "0", lg: "30%" },
+    transform: { sm: "none", lg: "translate(-50%, -50%)" },
   },
 } as const;
-
 
 function App() {
   const [results, setResults] = useRecoilState(resultsState);
@@ -82,7 +82,9 @@ function App() {
             <RefreshIcon />
           </IconButton>
         </Box>
-        <Typography variant="h3">Why is my girlfriend mad at me?</Typography>
+        <Typography variant="h3">
+          {titles[Math.floor(Math.random() * titles.length)]}
+        </Typography>
         <Results />
       </Container>
     </ThemeProvider>
